@@ -87,8 +87,9 @@ class PostsController extends Controller
      */
     public function show(string $id)
     {
-        $data['posts'] = Post::all();
-        return view('posts.index',$data);
+        $data['post'] = Post::findOrFail($id);
+        $data['tags'] = Tag::pluck('name','id');
+        return view('posts.show',$data);
     }
 
     /**
