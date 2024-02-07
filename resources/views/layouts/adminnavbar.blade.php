@@ -18,7 +18,8 @@
             <!--                <span class="w-6 h-6 border-2 border-cyan-900 rounded-full flex justify-center items-center hover:cursor-pointer me-8"><i class="fas fa-question text-sm"></i></span>-->
             <span class="text-gray-600 me-3">Admin</span>
             <img src="{{asset('assets/img/users/user3.jpg')}}" alt="user" class="w-10 h-10 rounded-full hover:cursor-pointer me-5" />
-            <a href="javascript:void(0);" class="bg-blue-900 text-sm text-center text-white rounded-md transition-all duration-100 hover:bg-blue-700 px-4 py-2">Logout</a>
+            <a href="javascript:void(0);" class="bg-blue-900 text-sm text-center text-white rounded-md transition-all duration-100 hover:bg-blue-700 px-4 py-2" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">Logout</a>
+            <form action="{{route('logout')}}" id="logoutform" method="POST">@csrf</form>
         </div>
 
     </div>
