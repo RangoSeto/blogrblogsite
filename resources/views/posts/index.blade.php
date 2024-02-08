@@ -3,7 +3,7 @@
 
 
     <!--            Start Search Section-->
-    <div class="w-full bg-white shadow-xl sticky top-0 px-12 py-4">
+    <div class="w-full bg-white shadow-xl sticky top-0 px-12 py-4 z-20">
         <form action="" class="flex justify-between ">
 
             <div>
@@ -35,34 +35,54 @@
 
         @foreach($posts as $post)
             <a href="{{route('posts.show',$post->id)}}">
-                <div class="flex justify-between items-center border border-blue-200 p-5 hover:bg-blue-50 group mb-3">
-                    <div class="flex items-center">
-                        <img src="{{asset($post->image)}}" width="100" height="50" alt="post1" />
-                        <div class="ps-5">
-                            <p class="group-hover:underline pb-2">{{ Str::limit($post->title,60)  }}</p>
-                            <p class="text-sm text-gray-500">{!! Str::limit($post->content,50) !!}</p>
+                <div class="relative border border-blue-200 p-5 hover:bg-blue-50 group mb-3">
 
-                            <div class="mt-3">
-                                @foreach($post->tag as $tag)
-                                    <span class="bg-sky-400 text-white text-sm px-2 py-1 rounded-md">{{$tag->name}}</span>
-                                @endforeach
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="{{asset($post->image)}}" width="100" height="50" alt="post1" />
+                            <div class="ps-5">
+                                <p class="group-hover:underline pb-2">{{ Str::limit($post->title,60)  }}</p>
+                                <p class="text-sm text-gray-500">{!! Str::limit($post->content,50) !!}</p>
+
+                                <div class="mt-3">
+                                    @foreach($post->tag as $tag)
+                                        <span class="bg-sky-400 text-white text-sm px-2 py-1 rounded-md">{{$tag->name}}</span>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="flex flex-col items-end me-5">
-                        <div class="flex items-center mb-2">
-                            <span class="text-sm text-gray-500 me-3">Admin</span>
-                            <img src="{{asset('assets/img/users/user3.jpg')}}" alt="user" class="w-10 h-10 rounded-full hover:cursor-pointer" />
+                        <div class="flex flex-col items-end me-5">
+                            <div class="flex items-center mb-2">
+                                <span class="text-sm text-gray-500 me-3">Admin</span>
+                                <img src="{{asset('assets/img/users/user3.jpg')}}" alt="user" class="w-10 h-10 rounded-full hover:cursor-pointer" />
+                            </div>
+                            <p class="text-sm text-gray-500">Publish : {{$post->created_at->format('d M Y')}}</p>
                         </div>
-                        <p class="text-sm text-gray-500">Publish : {{$post->created_at->format('d M Y')}}</p>
                     </div>
+
+
+                    <div class="w-full absolute top-1/2 right-0 transform translate-x-3/4 -translate-y-1/2 opacity-0 group-hover:opacity-100">
+                        <a href="{{route('posts.edit',$post->id)}}" class=""><i class="fas fa-edit text-sky-500 me-3 hover:cursor-pointer"></i></a>
+                        <a href="#" class="delete-btn" data-idx="{{$post->id}}"><i class="fas fa-trash-alt text-red-500 hover:cursor-pointer"></i></a>
+                    </div>
+                    <form id="formdelete{{$post->id}}" action="{{route('posts.destroy',$post->id)}}" method="POST">
+                        @csrf
+                        @method("DELETE")
+                    </form>
+
                 </div>
+
+
             </a>
         @endforeach
 
 
     </div>
     <!--            End Post Show Section    -->
+
+@endsection
+
+@section('css')
 
 @endsection
 
@@ -101,5 +121,20 @@
         autoshowbtn();
         // End Auto Btn Clear
 
+        // Start Delete Btn
+        const getdeltebtns = document.querySelectorAll('.delete-btn');
+        getdeltebtns.forEach(function(getdeltebtn){
+            getdeltebtn.addEventListener('click',function(){
+                var getidx = this.getAttribute('data-idx');
+
+                if(window.confirm(`Are you sure !! You want to delete ${getidx} ?`)){
+                    document.getElementById('formdelete'+getidx).submit();
+                    return true;
+                }else{
+                    return false;
+                }
+            });
+        });
+        // End Delete Btn
     </script>
 @endsection

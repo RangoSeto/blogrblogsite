@@ -97,7 +97,11 @@ class PostsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data['post'] = Post::findOrFail($id);
+        $data['taggables'] = $data['post']->tag()->get();
+        $data['tags'] = Tag::all()->pluck('name','id');
+
+        return view('posts.edit',$data);
     }
 
     /**
@@ -105,7 +109,46 @@ class PostsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $this->validate($request,[
+            'image'=>'image|mimes:jpg,jpeg,png,gif|max:1024',
+            'title'=>'required',
+            'content'=>'required'
+        ]);
+
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $post = new Post();
+        $post->title = $request['title'];
+        $post->slug = Str::slug($request['title']);
+        $post->content = $request['content'];
+        $post->user_id = $user_id;
+
+        if(file_exists($request['image'])){
+            $file = $request['image'];
+            $fname = $file->getClientOriginalName();
+            $imagenewname = uniqid($user_id).$fname;
+            $file->move(public_path('assets/img/posts/'),$imagenewname);
+
+            $filepath = 'assets/img/posts/'.$imagenewname;
+            $post->image = $filepath;
+        }
+
+        $post->save();
+
+        if($post->id){
+            if(count($request['tag_id']) > 0){
+                foreach($request['tag_id'] as $key=>$value){
+                    Tagable::create([
+                        'tag_id'=>$value,
+                        'tagable_id'=>$post->id,
+                        'tagable_type'=>$request['tagable_type']
+                    ]);
+                }
+            }
+        }
+
+        return redirect()->back();
     }
 
     /**
@@ -113,7 +156,9 @@ class PostsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
+        return redirect()->back();
     }
 
 //default(asset('assets/img/illu/noimage.jpg'))->
