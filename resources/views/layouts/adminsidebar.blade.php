@@ -21,7 +21,7 @@
             </div>
 
             <div class="w-full text-blue-900 text-md leading-3 transition-all duration-100 hover:bg-white hover:cursor-pointer py-4">
-                <a href="{{route('dashboards.index')}}" class="w-full block px-8 py-1"><i class="far fa-comments text-md me-3"></i> Comments</a>
+                <a href="{{route('comments.index')}}" class="w-full block px-8 py-1"><i class="far fa-comments text-md me-3"></i> Comments</a>
             </div>
 
             <div class="w-full text-blue-900 text-md leading-3 transition-all duration-100 hover:bg-white hover:cursor-pointer py-4">

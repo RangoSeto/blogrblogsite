@@ -26,7 +26,7 @@
 
                         <div class="w-full mb-2">
                             <label for="bio" class="text-gray-600 block">Bio</label>
-                            <textarea name="bio" id="bio" rows="3" class="w-full text-gray-700 border-gray-300 resize-y-none " readonly placeholder="Write Bio...">{{is_null($userdatas)? '' : $userdatas->bio}}</textarea>
+                            <textarea name="bio" id="bio" rows="3" class="w-full text-gray-700 border-gray-300 resize-y-none " readonly placeholder="Bio...">{{is_null($userdatas)? '' : $userdatas->bio}}</textarea>
                         </div>
 
                         <div class="w-full text-center">

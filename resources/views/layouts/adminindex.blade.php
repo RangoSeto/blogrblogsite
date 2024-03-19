@@ -8,7 +8,7 @@
 
     @include('layouts.adminsidebar')
 
-    <div class="w-3/4 h-screen overflow-y-scroll pb-4">
+    <div class="w-3/4 h-screen overflow-y-scroll overflow-x-hidden pb-4 mx-auto">
         @yield('content')
     </div>
 

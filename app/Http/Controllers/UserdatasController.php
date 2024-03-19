@@ -27,9 +27,6 @@ class UserdatasController extends Controller
         $this->validate($request,[
             'image'=>'image|mimes:jpg,jpeg,png,gif',
             'bio'=>'nullable',
-            'user_id'=>'required',
-            'name'=>'required',
-            'email'=>'required'
         ]);
 
         $user = Auth::user();
@@ -51,7 +48,7 @@ class UserdatasController extends Controller
         }
 
         $userdatas->save();
-        return view('posts.index');
+        return view('userdatas.index');
     }
 
     /**
