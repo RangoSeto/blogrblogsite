@@ -3,35 +3,27 @@
 @section('content')
 
     <div class="px-7 py-5">
-        <h6 class="text-gray-700">Account Details</h6>
+        <h6>Update User data</h6>
         <div class="w-full py-4">
 
-            <form action="{{route('userdatas.store')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('userdatas.update',$userdatas->id)}}" method="POST" enctype="multipart/form-data">
 
                 @csrf
-                @method('POST')
+                @method('PUT')
 
                 <div class="flex justify-center space-x-7">
                     <div class="md:w-1/3">
 
-                        <div class="w-full text-gray-500 flex justify-center items-center">
-{{--                            <img src="{{ @if($userdatas->checkuserdata()) asset($userdatas->image) @else asset('assets/img/illu/defaultimage.jpg') @endif}} " alt="" width="180" height="230" />--}}
-                            @if(!is_null($userdatas))
-                                <img src="{{asset($userdatas->image)}}" alt="" width="180" height="230" />
-                            @else
-                                <img src="{{asset('assets/img/illu/defaultimage.jpg')}}" alt="" width="180" height="230" />
-                            @endif
-
+                        <div class="w-full bg-blue-100 text-gray-500 flex justify-center items-center  mb-8">
+                            <label for="image" class="gallery">
+                                <span>Choose profile picture</span>
+                            </label>
+                            <input type="file" name="image" id="image" class="hidden" />
                         </div>
 
-                        <div class="w-full mb-2">
+                        <div class="w-full mb-5">
                             <label for="bio" class="text-gray-600 block">Bio</label>
-                            <textarea name="bio" id="bio" rows="3" class="w-full text-gray-700 border-gray-300 resize-y-none " readonly placeholder="Bio...">{{is_null($userdatas)? '' : $userdatas->bio}}</textarea>
-                        </div>
-
-                        <div class="w-full text-center">
-                            <a href="{{is_null($userdatas) ? route('userdatas.create') : route('userdatas.edit',$userdatas->id)}}" class="bg-sky-200 py-2 px-5 rounded-full text-gray-700 text-sm "><i class="fas fa-pen fa-xs me-2"></i>Edit</a>
-
+                            <textarea name="bio" id="bio" rows="5" class="w-full border-gray-300 resize-y-none" placeholder="Write Bio..."></textarea>
                         </div>
 
                     </div>
@@ -47,6 +39,10 @@
                             <input type="email" name="email" id="title" class="w-full text-gray-600 border-gray-300" value="{{$alluser->email}}" readonly />
                         </div>
 
+                        <div class="flex justify-end space-x-2.5 mt-5">
+                            <a href="{{route('dashboards.index')}}" class="bg-gray-300 text-sm px-4 py-2 hover:bg-white border-2 border-white hover:border-blue-900 rounded-md">Back</a>
+                            <button type="submit" class="bg-blue-900 text-sm text-white px-4 py-2 border-2 border-white hover:bg-blue-700  rounded-md">Update</button>
+                        </div>
                     </div>
                 </div>
 

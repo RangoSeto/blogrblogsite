@@ -4,15 +4,20 @@
 
     <!--            Start Post Show Section-->
     <div class="px-12 my-8 mb-24">
--
+
         @foreach($comments as $comment)
             <a href="{{route('posts.show',$comment->commentable_id)}}">
                 <div class=" border border-blue-200 p-5 hover:bg-blue-50 group mb-3">
-                    <div class="flex items-center">
-                        <img src="{{empty($comment->userdata()->image) ? asset('assets/img/illu/defaultimage.jpg') : asset($comment->userdata()->image)}}" alt="" class="w-12 h-12 rounded-full me-3" />
-                        <span><span class="font-semibold">{{$comment->user->name}} </span>Commented on <span class="italic">{{Str::limit($comment->commentable->title,30)}}</span></span>
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <img src="{{empty($comment->userdata()->image) ? asset('assets/img/illu/defaultimage.jpg') : asset($comment->userdata()->image)}}" alt="" class="w-12 h-12 rounded-full me-3" />
+                            <span><span class="font-semibold">{{$comment->user->name}} </span>Commented on <span class="italic">{{Str::limit($comment->commentable->title,40)}}</span></span>
+                        </div>
+                        <div>
+                            <span>{{$comment->created_at->format('d M Y')}}</span>
+                        </div>
                     </div>
-                </div>4i
+                </div>
             </a>
         @endforeach
 

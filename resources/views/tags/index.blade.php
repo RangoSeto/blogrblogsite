@@ -32,8 +32,8 @@
                                 <td class="border-b border-gray-200">{{$tag->created_at->format('d M Y')}}</td>
                                 <td class="border-b border-gray-200">{{$tag->updated_at->format('d M Y')}}</td>
                                 <td class="border-b border-gray-200">
-                                    <a href="#" class="pe-4 edit-btn" data-id="{{$tag->id}}" data-name="{{$tag->name}}"><i class="fas fa-edit fa-sm text-blue-900"></i></a>
-                                    <a href="#" class="delete-btn" data-id="{{$tag->id}}"><i class="fas fa-trash-alt fa-sm text-red-600"></i></a>
+                                    <a href="javascript:void(0)" class="pe-4 edit-btn" data-id="{{$tag->id}}" data-name="{{$tag->name}}"><i class="fas fa-edit text-blue-900"></i></a>
+                                    <a href="javascript:void(0)" class="delete-btn" data-idx="{{$idx}}" data-id="{{$tag->id}}"><i class="fas fa-trash-alt text-red-600"></i></a>
                                 </td>
                                 <form id="formdelete{{$tag->id}}" action="{{route('tags.destroy',$tag->id)}}" method="POST">
                                     @csrf
@@ -187,8 +187,14 @@
         getdeletebtns.forEach(function(getdeletebtn){
             getdeletebtn.addEventListener('click',function(){
                 let getid = this.getAttribute('data-id');
+                let getidx = this.getAttribute('data-idx');
                 let getform = document.getElementById(`formdelete${getid}`);
-                getform.submit();
+
+                if(confirm(`Are you sure want to delete ${getidx}`)){
+                    getform.submit();
+                }
+
+
             });
         });
         // End delete btn

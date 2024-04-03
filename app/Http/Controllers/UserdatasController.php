@@ -14,6 +14,7 @@ class UserdatasController extends Controller
         $data['userdatas'] = Userdata::where('user_id',Auth::id())->get()->first();
 //        $data['users'] = User::all();
 //        dd($data['userdatas']->checkuserdata(1));
+//        dd($data['userdatas']);
         return view('userdatas.index',$data);
     }
 
@@ -48,7 +49,7 @@ class UserdatasController extends Controller
         }
 
         $userdatas->save();
-        return view('userdatas.index');
+        return redirect()->back();
     }
 
     /**
@@ -64,7 +65,9 @@ class UserdatasController extends Controller
      */
     public function edit(string $id)
     {
-        return view('userdatas.create');
+        $data['userdatas'] = Userdata::findOrFail($id);
+
+        return view('userdatas.edit',$data);
 
     }
 
@@ -73,7 +76,31 @@ class UserdatasController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $this->validate($request,[
+            'image'=>'image|mimes:jpg,jpeg,png,gif',
+            'bio'=>'nullable',
+        ]);
 
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $userdatas = Userdata::findOrFail($id);
+        $userdatas->bio = $request['bio'];
+        $userdatas->user_id = $user_id;
+
+        if(file_exists($request['image'])){
+            $file = $request['image'];
+            $fname = $file->getClientOriginalName();
+            $imagenewname = uniqid().$fname;
+            $file->move(public_path('assets/img/userdatas/'),$imagenewname);
+
+            $filepath = 'assets/img/userdatas/'.$imagenewname;
+            $userdatas->image = $filepath;
+
+        }
+
+        $userdatas->save();
+        return redirect()->back();
     }
 
     /**

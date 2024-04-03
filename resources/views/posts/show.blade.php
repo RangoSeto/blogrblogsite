@@ -74,6 +74,7 @@
 
 {{--                    Start Hidden Fields--}}
                     <input type="hidden" name="commentable_id" id="commentable_id" value="{{$post->id}}" />
+                    <input type="hidden" name="owner_id" id="owner_id" value="{{$post->user_id}}" />
                     <input type="hidden" name="commentable_type" id="commentable_type" value="App\Models\Post" />
 {{--                    End Hidden Fields--}}
 

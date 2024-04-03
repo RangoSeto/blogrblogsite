@@ -22,6 +22,7 @@ class CommentsController extends Controller
         Comment::create([
             'description'=>$request['description'],
             'user_id'=>$user_id,
+            'owner_id'=>$request['owner_id'],
             'commentable_id'=>$request['commentable_id'],
             'commentable_type'=>$request['commentable_type']
         ]);

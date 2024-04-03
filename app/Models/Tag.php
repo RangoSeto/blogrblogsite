@@ -20,4 +20,8 @@ class Tag extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function post(){
+        return $this->morphedByMany(Post::class,'tagable');
+    }
+
 }

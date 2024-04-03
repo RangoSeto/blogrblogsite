@@ -13,63 +13,71 @@
 
     <!--            Start Post Show Section-->
 
-    <div class="w-full flex px-6 my-4 mb-24">
+    <div class="w-full  px-6 my-4 mb-24">
 
-        <div class="w-1/4 bg-gray-100 text-gray-600 text-sm font-light">
+        <form action="{{route('posts.update',$post->id)}}" method="POST" class="flex">
+            @csrf
+            @method("PUT")
+            <div class="w-1/4 bg-gray-100 text-gray-600 text-sm font-light">
 
-            <div class="w-full p-5">
+                <div class="w-full p-5">
 
-                <div class="flex justify-between mb-5">
-                    <span><i class="fas fa-user fa-sm me-3"></i>User</span>
-                    <span>{{$post->user['name']}}</span>
+                    <div class="flex justify-between mb-5">
+                        <span><i class="fas fa-user fa-sm me-3"></i>User</span>
+                        <span>{{$post->user['name']}}</span>
+                    </div>
+
+                    <div class="flex justify-between mb-5">
+                        <span><i class="fas fa-calendar-alt fa-sm me-3"></i>Created</span>
+                        <span>{{$post->created_at->format('d M Y | h:i:s A')}}</span>
+                    </div>
+
+                    <div class="flex justify-between mb-5">
+                        <span><i class="fas fa-calendar-alt fa-sm me-3"></i>Updated</span>
+                        <span>{{$post->updated_at->format('d M Y | h:i:s A')}}</span>
+                    </div>
+
                 </div>
 
-                <div class="flex justify-between mb-5">
-                    <span><i class="fas fa-calendar-alt fa-sm me-3"></i>Created</span>
-                    <span>{{$post->created_at->format('d M Y | h:i:s A')}}</span>
-                </div>
-
-                <div class="flex justify-between mb-5">
-                    <span><i class="fas fa-calendar-alt fa-sm me-3"></i>Updated</span>
-                    <span>{{$post->updated_at->format('d M Y | h:i:s A')}}</span>
-                </div>
-
-            </div>
-
-            <div class="w-full p-5">
-                <h3>Categories</h3>
-                <div class="mt-3">
-                    @foreach($tags as $id=>$name)
-                        <div class="py-1.5 me-4 inline-flex">
-                            <input type="checkbox" name="tag_id[]" id="tag_id{{$id}}" value="{{$id}}" class="me-1"
-                                @foreach($taggables as $taggable)
-                                    @if($taggable['id'] == $id)
-                                        checked
-                                   @endif
-                                @endforeach
-                            />
-                            <label for="tag_id{{$id}}">{{$name}}</label>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-
-        <div class="w-3/4 bg-gray-100 ms-3 py-7">
-            <div class="text-center px-4">
-                <input type="text" value="{{$post->title}}" class="w-full font-bold text-xl text-gray-700 text-center" style="background-color: transparent !important;" title="click to edit" >
-                <img src="{{asset('assets/img/posts/165b5ea1ed830dphoto_2024-01-09_17-01-26.jpg')}}" width="400" class="mx-auto py-8" alt="">
-                <div>
-                    <textarea class="w-full min-h-44 px-18 text-sm leading-relaxed text-justify text-gray-700 bg-transparent border-1 resize-none" rows="10" style="background-color: transparent !important;">{{$post->content}}</textarea>
+                <div class="w-full p-5">
+                    <h3>Categories</h3>
+                    <div class="mt-3">
+                        @foreach($tags as $id=>$name)
+                            <div class="py-1.5 me-4 inline-flex">
+                                <input type="checkbox" name="tag_id[]" id="tag_id{{$id}}" value="{{$id}}" class="me-1"
+                                       @foreach($taggables as $taggable)
+                                           @if($taggable['id'] == $id)
+                                               checked
+                                    @endif
+                                    @endforeach
+                                />
+                                <label for="tag_id{{$id}}">{{$name}}</label>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
-            <div class="flex justify-end space-x-2.5 mt-5">
-                <a href="{{route('posts.index')}}" class="bg-gray-300 text-sm px-4 py-2 hover:bg-white border-2 border-white hover:border-blue-900 rounded-md">Back</a>
-                <button type="submit" class="bg-blue-900 text-sm text-white px-4 py-2 border-2 border-white hover:bg-blue-700  rounded-md">Update</button>
-            </div>
-        </div>
+            <div class="w-3/4 bg-gray-100 ms-3 py-7">
+                <div class="text-center px-4">
+                    <input type="text" name="title" value="{{$post->title}}" class="w-full font-bold text-xl text-gray-700 text-center" style="background-color: transparent !important;" title="click to edit" >
+                    <img src="{{asset('assets/img/posts/165b5ea1ed830dphoto_2024-01-09_17-01-26.jpg')}}" width="400" class="mx-auto py-8" alt="">
+                    <input type="file" name="image" />
+                    <div>
+                        <textarea name="content" id="content" class="w-full min-h-44 px-18 text-sm leading-relaxed text-justify text-gray-700 bg-transparent border-1 resize-none" rows="10" style="background-color: transparent !important;">{{$post->content}}</textarea>
+                    </div>
+                </div>
 
+{{--                hidden Area--}}
+                <input type="hidden" name="tagable_type" id="tagable_type" value="App\Models\Post" />
+
+
+                <div class="flex justify-end space-x-2.5 mt-5">
+                    <a href="{{route('posts.index')}}" class="bg-gray-300 text-sm px-4 py-2 hover:bg-white border-2 border-white hover:border-blue-900 rounded-md">Back</a>
+                    <button type="submit" class="bg-blue-900 text-sm text-white px-4 py-2 border-2 border-white hover:bg-blue-700  rounded-md">Update</button>
+                </div>
+            </div>
+        </form>
 
 
     </div>

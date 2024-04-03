@@ -54,6 +54,8 @@ class TagsController extends Controller
     {
         $tag = Tag::findOrFail($id);
         $tag->delete();
+        $tag->post()->detach();
+
         return redirect()->back();
     }
 }

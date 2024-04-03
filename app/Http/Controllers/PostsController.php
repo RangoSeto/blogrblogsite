@@ -80,7 +80,7 @@ class PostsController extends Controller
             }
         }
 
-        return route('posts.index');
+        return redirect(route('posts.index'));
 
     }
 
@@ -112,10 +112,9 @@ class PostsController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         $this->validate($request,[
-            'image'=>'image|mimes:jpg,jpeg,png,gif|max:1024',
-            'title'=>'required',
-            'content'=>'required'
+            'image'=>'image|mimes:jpg,jpeg,png,gif|max:1024|nullable'
         ]);
 
         $user = Auth::user();
@@ -125,7 +124,6 @@ class PostsController extends Controller
         $post->title = $request['title'];
         $post->slug = Str::slug($request['title']);
         $post->content = $request['content'];
-        $post->user_id = $user_id;
 
         if(file_exists($request['image'])){
 
@@ -156,6 +154,7 @@ class PostsController extends Controller
                         'tagable_id'=>$post->id,
                         'tagable_type'=>$request['tagable_type']
                     ]);
+
                 }
             }
         }
